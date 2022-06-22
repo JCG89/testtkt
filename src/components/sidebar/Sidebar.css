@@ -5,9 +5,55 @@
   width: 150px;
   height: auto;
   margin: 20px 15px;
-  padding: 10px;
+  justify-content: space-between;
   align-items: space-between;
+}
+.section {
+  position: relative;
 }
 .icon {
   color: #4e59ff;
+}
+.list-data {
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+  list-style-type: none;
+  cursor: pointer;
+}
+.dataContent {
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+  list-style-type: none;
+}
+.dataConten:nth-child(even) {
+  background-color: #4e59ff;
+}
+.dataContent:hover {
+  border: 1px solid #4e59ff;
+  border-radius: 5px;
+  height: 55px;
+  width: 850px;
+}
+.dashboard {
+  max-width: 1200px;
+  margin-top: 15px;
+  margin-left: 15px;
+  justify-content: space-between;
+}
+.selectItem {
+  margin-left: 300px;
+}
+.select {
+  width: 200px;
+  height: 30px;
+  margin: 15px;
+}
+.data {
+  margin-left: 270px;
+  margin-top: 25px;
+}
+#dataItem {
+  width: auto;
 }
