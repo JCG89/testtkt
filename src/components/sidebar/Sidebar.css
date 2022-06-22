@@ -1,0 +1,13 @@
+.sidenav {
+  display: flex;
+  flex-direction: column;
+  background-color: antiquewhite;
+  width: 150px;
+  height: auto;
+  margin: 20px 15px;
+  padding: 10px;
+  align-items: space-between;
+}
+.icon {
+  color: #4e59ff;
+}
