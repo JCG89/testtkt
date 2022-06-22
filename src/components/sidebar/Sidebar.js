@@ -6,64 +6,92 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGauge } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { Navbar } from "../navbar/Navbar";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Sidebar = () => {
   const [entreprisesData, setEprisesData] = useState([]);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const fetchBiz = async () => {
+    const fetchData = async () => {
       const result = await axios.get("https://test.wertkt.com/api/biz/");
 
       setEprisesData(result.data);
       console.log(result);
     };
-    fetchBiz();
+    fetchData();
   }, []);
+  entreprisesData.map((item) => {
+    const sectorOption = item.sector;
+  });
   return (
     <>
-      <div className="dashboard">
-        <nav className="sidenav">
-          <span className="spanItem">
-            <FontAwesomeIcon icon={faGauge} className="icon" />
-            Dashboard
-          </span>
-          <Link to="/"></Link>
-          <Link to="/details"></Link>
-          <span className="spanItem">
-            <FontAwesomeIcon icon={faGauge} className="icon" />
-            Lorem ipsum
-          </span>
-          <span className="spanItem">
-            <FontAwesomeIcon icon={faGauge} className="icon" />
-            lorem ipsum
-          </span>
-        </nav>
-        <div className="section">
-          <div className="selectItem">
-            <select className="select">
-              <option value="data">Sector</option>
+      <div className="container">
+        <h3 className="text-center mb-2">Welcome on Tkt Dashboard</h3>
+        <div className="row">
+          <div className="col-sm-2 iconContent">
+            <span>
+              <FontAwesomeIcon icon={faGauge} />
+              Dashboard
+            </span>
+            <span>
+              <FontAwesomeIcon icon={faGauge} />
+              Dashboard
+            </span>
+            <span>
+              <FontAwesomeIcon icon={faGauge} />
+              Dashboard
+            </span>
+          </div>
+          <div className="col-sm" id="form-select">
+            <select
+              className="form-select"
+              aria-label="Disabled select example"
+            >
+              <option selected>Sector</option>
+              {entreprisesData.map((item) => {
+                return (
+                  <>
+                    <option value="1">{item.sector}</option>
+                  </>
+                );
+              })}
             </select>
-            <select className="select">
-              <option value="sector">Company</option>
+            <select class="form-select" aria-label="Disabled select example">
+              <option selected>Company</option>
+              {entreprisesData.map((item) => {
+                return (
+                  <>
+                    <option value="1">{item.name}</option>
+                  </>
+                );
+              })}
             </select>
           </div>
-
-          <div className="data">
-            <ul className="list-data">
-              <li>COMPANY</li>
-              <li>N° SIREN</li>
-              <li>CATEGORY</li>
-            </ul>
-            {entreprisesData.map((item) => {
-              return (
-                <ul className="dataContent" key={item.id}>
-                  <li id="dataItem">{item.name}</li>
-                  <li id="dataItem">{item.siren}</li>
-                  <li id="dataItem">{item.sector}</li>
-                </ul>
-              );
-            })}
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th className="head">COMPANY</th>
+                  <th className="head">N° SIREN</th>
+                  <th className="head">CATEGORY</th>
+                </tr>
+              </thead>
+              <tbody>
+                {entreprisesData.map((item) => {
+                  const name = item.name;
+                  const siren = item.siren;
+                  const sector = item.sector;
+                  return (
+                    <tr>
+                      <td>{name}</td>
+                      <td>{siren}</td>
+                      <td>{sector}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
