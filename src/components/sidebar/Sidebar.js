@@ -10,20 +10,31 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Sidebar = () => {
   const [entreprisesData, setEprisesData] = useState([]);
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get("https://test.wertkt.com/api/biz/");
 
       setEprisesData(result.data);
-      console.log(result);
     };
     fetchData();
   }, []);
+  const entrepriseDataBis = [];
+
   entreprisesData.map((item) => {
-    const sectorOption = item.sector;
+    entrepriseDataBis.push(item.sector);
   });
+  const newsectorTab = [...new Set(entrepriseDataBis)];
+
+  const filtered = () => {
+    entreprisesData.map((item) => {
+      if (item === item.sector) {
+        return item.sector;
+      }
+      console.log(item.sector);
+    });
+  };
+
   return (
     <>
       <div className="container">
@@ -31,15 +42,15 @@ const Sidebar = () => {
         <div className="row">
           <div className="col-sm-2 iconContent">
             <span>
-              <FontAwesomeIcon icon={faGauge} />
+              <FontAwesomeIcon icon={faGauge} className="Gauge" />
               Dashboard
             </span>
             <span>
-              <FontAwesomeIcon icon={faGauge} />
-              Dashboard
+              <FontAwesomeIcon icon={faGauge} className="Gauge" />
+              Lorem ipsum
             </span>
             <span>
-              <FontAwesomeIcon icon={faGauge} />
+              <FontAwesomeIcon icon={faGauge} className="Gauge" />
               Dashboard
             </span>
           </div>
@@ -48,21 +59,25 @@ const Sidebar = () => {
               className="form-select"
               aria-label="Disabled select example"
             >
-              <option selected>Sector</option>
-              {entreprisesData.map((item) => {
-                return (
-                  <>
-                    <option value="1">{item.sector}</option>
-                  </>
-                );
-              })}
+              <option selected aria-required="true">
+                Sector
+              </option>
+              {newsectorTab
+                .map((sector) => {
+                  return (
+                    <>
+                      <option value="1">{sector}</option>
+                    </>
+                  );
+                })
+                .sort()}
             </select>
-            <select class="form-select" aria-label="Disabled select example">
+            <select class="form-select">
               <option selected>Company</option>
               {entreprisesData.map((item) => {
                 return (
                   <>
-                    <option value="1">{item.name}</option>
+                    // <option value="1">{item.name}</option>
                   </>
                 );
               })}
@@ -78,18 +93,23 @@ const Sidebar = () => {
                 </tr>
               </thead>
               <tbody>
-                {entreprisesData.map((item) => {
-                  const name = item.name;
-                  const siren = item.siren;
-                  const sector = item.sector;
-                  return (
-                    <tr>
-                      <td>{name}</td>
-                      <td>{siren}</td>
-                      <td>{sector}</td>
-                    </tr>
-                  );
-                })}
+                {entreprisesData
+                  .map((item) => {
+                    //destructuring
+                    const name = item.name;
+                    const siren = item.siren;
+                    const sector = item.sector;
+                    return (
+                      <tr>
+                        <td>{name}</td>
+                        <td>{siren}</td>
+                        <Link to="/details" className="btn btn-success">
+                          <td>{sector}</td>
+                        </Link>
+                      </tr>
+                    );
+                  })
+                  .sort()}
               </tbody>
             </table>
           </div>
