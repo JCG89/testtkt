@@ -1,6 +1,7 @@
 import React from "react";
 import "./Sidebar.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,34 +15,39 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Sidebar = () => {
   const [entreprisesData, setEprisesData] = useState([]);
+  const [sectorList, setSectorList] = useState([]);
+  const [selectedSector, setSelectedSector] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get("https://test.wertkt.com/api/biz/");
 
       setEprisesData(result.data);
+      setSectorList(result.data);
     };
     fetchData();
   }, []);
+  //Duplicate removal step
   const entrepriseDataBis = [];
 
   entreprisesData.map((item) => {
     entrepriseDataBis.push(item.sector);
   });
   const newsectorTab = [...new Set(entrepriseDataBis)];
+  //Function for filter
 
-  const filtered = () => {
-    entreprisesData.map((item) => {
-      if (item === item.sector) {
-        return item.sector;
-      }
-      console.log(item.sector);
-    });
+  const getFilteredList = () => {
+    if (!selectedSector) {
+      return sectorList;
+    }
+
+    return sectorList.filter((sector) => sector.sector === selectedSector);
   };
-  const fitered = () => {
-    const filtered = entreprisesData.map((item) => {
-      console.log(filtered);
-    });
+  const filteredList = useMemo(getFilteredList, [selectedSector, sectorList]);
+
+  const handleSectorChange = (e) => {
+    setSelectedSector(e.target.value);
+    console.log(selectedSector);
   };
 
   return (
@@ -63,15 +69,19 @@ const Sidebar = () => {
             </span>
           </div>
           <div className="col-sm" id="form-select">
-            <select className="form-select" aria-label="text">
+            <select
+              onChange={handleSectorChange}
+              className="form-select"
+              aria-label="text"
+            >
               <option selected aria-required="true">
                 Sector
               </option>
-              {newsectorTab
+              {newsectorTab //Array without sector duplicates
                 .map((sector) => {
                   return (
                     <>
-                      <option value="1">{sector}</option>
+                      <option value={sector}>{sector}</option>
                     </>
                   );
                 })
@@ -79,7 +89,7 @@ const Sidebar = () => {
             </select>
             <select class="form-select">
               <option selected>Company</option>
-              {entreprisesData.map((item) => {
+              {filteredList.map((item) => {
                 return (
                   <>
                     // <option value="1">{item.name}</option>
@@ -98,18 +108,18 @@ const Sidebar = () => {
                 </tr>
               </thead>
               <tbody>
-                {entreprisesData
+                {filteredList //filtered array
                   .map((item) => {
                     //destructuring
                     const name = item.name;
                     const siren = item.siren;
-                    const sector = item.sector;
+                    const selectedSector = item.sector;
                     return (
                       <tr>
                         <td>{name}</td>
                         <td>{siren}</td>
                         <Link to="/details" className="btn btn-success">
-                          <td>{sector}</td>
+                          <td>{selectedSector}</td>
                         </Link>
                       </tr>
                     );
