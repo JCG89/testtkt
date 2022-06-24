@@ -3,7 +3,11 @@ import "./Sidebar.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGauge } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBell,
+  faGauge,
+  faQuestionCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { Navbar } from "../navbar/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -34,6 +38,11 @@ const Sidebar = () => {
       console.log(item.sector);
     });
   };
+  const fitered = () => {
+    const filtered = entreprisesData.map((item) => {
+      console.log(filtered);
+    });
+  };
 
   return (
     <>
@@ -42,23 +51,19 @@ const Sidebar = () => {
         <div className="row">
           <div className="col-sm-2 iconContent">
             <span>
-              <FontAwesomeIcon icon={faGauge} className="Gauge" />
-              Dashboard
+              <FontAwesomeIcon icon={faGauge} className="gauge" />
+              DASHBOARD
             </span>
             <span>
-              <FontAwesomeIcon icon={faGauge} className="Gauge" />
-              Lorem ipsum
+              <FontAwesomeIcon icon={faBell} className="gauge" /> LOREM IPSUM
             </span>
             <span>
-              <FontAwesomeIcon icon={faGauge} className="Gauge" />
-              Dashboard
+              <FontAwesomeIcon icon={faQuestionCircle} className="gauge" />
+              LOREM IPSUM
             </span>
           </div>
           <div className="col-sm" id="form-select">
-            <select
-              className="form-select"
-              aria-label="Disabled select example"
-            >
+            <select className="form-select" aria-label="text">
               <option selected aria-required="true">
                 Sector
               </option>
