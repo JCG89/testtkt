@@ -15,8 +15,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Sidebar = () => {
   const [entreprisesData, setEprisesData] = useState([]);
-  const [sectorList, setSectorList] = useState([]);
-  const [selectedSector, setSelectedSector] = useState();
+  const [sectorList, setSectorList] = useState([]); //state for sector list
+  const [selectedSector, setSelectedSector] = useState(); // state for selected sector
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,8 +34,8 @@ const Sidebar = () => {
     entrepriseDataBis.push(item.sector);
   });
   const newsectorTab = [...new Set(entrepriseDataBis)];
-  //Function for filter
 
+  //Function for filter
   const getFilteredList = () => {
     if (!selectedSector) {
       return sectorList;
@@ -44,10 +44,11 @@ const Sidebar = () => {
     return sectorList.filter((sector) => sector.sector === selectedSector);
   };
   const filteredList = useMemo(getFilteredList, [selectedSector, sectorList]);
+  console.log(filteredList);
 
+  //handler for select
   const handleSectorChange = (e) => {
     setSelectedSector(e.target.value);
-    console.log(selectedSector);
   };
 
   return (

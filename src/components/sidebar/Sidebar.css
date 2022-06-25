@@ -21,10 +21,10 @@
 .btn {
   margin: 5px 20px;
   width: 85px;
-  background: #4e59ff important!;
 
   text-transform: uppercase;
   background: #4e59ff;
+  font-size: 10px;
 }
 .newSector {
   display: flex;
